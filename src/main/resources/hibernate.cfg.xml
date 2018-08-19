@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hbm2ddl.auto">create</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.url">jdbc:postgresql://localhost/wastedb</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
+        <property name="connection.pool_size">1</property>
+        <property name="show_sql">true</property>
+        <mapping class = "models.Bins.Bin"/>
+        <mapping class = "models.Bins.Glass"/>
+        <mapping class = "models.Bins.Compost"/>
+        <mapping class = "models.Bins.Landfill"/>
+        <mapping class = "models.Bins.MixedRecycling"/>
+        <mapping class="models.Rubbish.PieceOfRubbish"/>
+        <mapping class="models.Rubbish.Plastic.Plastic"/>
+        <mapping class="models.Rubbish.Plastic.PET1"/>
+        <mapping class="models.Rubbish.Plastic.HDPE"/>
+        <mapping class="models.Rubbish.Plastic.Vegware"/>
+        <mapping class="models.Rubbish.Organic.Organic"/>
+        <mapping class="models.Rubbish.Organic.OrganicPackaged"/>
+        <mapping class="models.Rubbish.Organic.OrganicNonPackaged"/>
+    </session-factory>
+</hibernate-configuration>
