@@ -1,6 +1,11 @@
 package models.Bins;
 
+import models.Rubbish.PieceOfRubbish;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -13,13 +18,13 @@ public abstract class Bin {
         private String type;
         private double weightCapacity;
         private String collectionDay;
-
+        private List<PieceOfRubbish> allRubbish;
 
     public Bin(String type, double weightCapacity, String collectionDay) {
             this.type = type;
             this.weightCapacity = weightCapacity;
             this.collectionDay = collectionDay;
-
+            this.allRubbish = new ArrayList<PieceOfRubbish>();
     }
 
     public Bin() {
@@ -48,6 +53,20 @@ public abstract class Bin {
             return collectionDay;
         }
 
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @ManyToMany
+    @JoinTable(
+            name = "bins_rubbish",
+            joinColumns = {@JoinColumn(name = "bin_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "piece_of_rubbish_id", nullable = false, updatable = false)}
+    )
+    public List<PieceOfRubbish> getAllRubbish() {
+        return allRubbish;
+    }
+
+    public void setAllRubbish(List<PieceOfRubbish> allRubbish) {
+        this.allRubbish = allRubbish;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -65,8 +84,13 @@ public abstract class Bin {
         this.collectionDay = collectionDay;
     }
 
+    public void addToBin(PieceOfRubbish pieceOfRubbish){
+        allRubbish.add(pieceOfRubbish);
+    }
 
-//        public boolean addItemsToBin(PieceOfRubbish pieceOfRubbish) {
+
+
+//        public boolean addToBin(PieceOfRubbish pieceOfRubbish) {
 //            if ((pieceOfRubbish.getWeight() + getWeightOfItemsInBin()) <= this.weightCapacity) {
 //                allRubbish.add(pieceOfRubbish);
 //                return true;
@@ -74,7 +98,7 @@ public abstract class Bin {
 //                return false;
 //            }
 //        }
-//
+
 //        public double getWeightOfItemsInBin(){
 //            double weightTotal = 0;
 //            for(PieceOfRubbish pieceOfRubbish : allRubbish ){

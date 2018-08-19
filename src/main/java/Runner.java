@@ -1,14 +1,15 @@
+import db.DBBin;
 import db.DBHelper;
-import models.Bins.Compost;
-import models.Bins.Glass;
-import models.Bins.Landfill;
-import models.Bins.MixedRecycling;
+import models.Bins.*;
 import models.Rubbish.ConversionFactor;
 import models.Rubbish.Organic.OrganicNonPackaged;
 import models.Rubbish.Organic.OrganicPackaged;
+import models.Rubbish.PieceOfRubbish;
 import models.Rubbish.Plastic.HDPE;
 import models.Rubbish.Plastic.PET1;
 import models.Rubbish.Plastic.Vegware;
+
+import java.util.List;
 
 public class Runner {
 
@@ -46,6 +47,10 @@ public class Runner {
         DBHelper.save(nonPackagedOrganic1);
         DBHelper.save(packagedOrganic1);
 
+        DBBin.addRubbishToBin(pet1, mixedRecycling1);
+        DBBin.addRubbishToBin(hdpe1, mixedRecycling1);
+        DBBin.addRubbishToBin(vegware1, compost1);
 
+        List<PieceOfRubbish> rubbishInsideTheBin = DBBin.getListOfRubbish(mixedRecycling1);
     }
 }

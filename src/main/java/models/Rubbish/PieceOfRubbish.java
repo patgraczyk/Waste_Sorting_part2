@@ -1,6 +1,11 @@
 package models.Rubbish;
 
+import models.Bins.Bin;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "rubbish")
@@ -12,11 +17,13 @@ public abstract class PieceOfRubbish {
     private String itemName;
     private int quantity;
     private double weight;
+    private List<Bin> bins;
 
     public PieceOfRubbish(String itemName, int quantity, double weight) {
         this.itemName = itemName;
         this.quantity = quantity;
         this.weight = weight;
+        this.bins = new ArrayList<Bin>();
     }
 
     public PieceOfRubbish() {
@@ -44,7 +51,20 @@ public abstract class PieceOfRubbish {
         return weight;
     }
 
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @ManyToMany
+    @JoinTable(
+            name = "bins_rubbish",
+            joinColumns = {@JoinColumn(name = "piece_of_rubbish_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "bin_id", nullable = false, updatable = false)}
+    )
+    public List<Bin> getBins() {
+        return bins;
+    }
 
+    public void setBins(List<Bin> bins) {
+        this.bins = bins;
+    }
 
     public void setId(int id) {
         this.id = id;
